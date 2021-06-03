@@ -1,0 +1,121 @@
+Review return results of a backtest
+You implemented a trend-following strategy using a simple moving average indicator. You backtested it using the Amazon stock historical price data from 2019 to 2020, and the result plot is shown on the right. Now you would like to review the return statistics from the backtest result.
+
+The bt backtest result has been provided in bt_result and is ready to use.
+
+# Obtain all backtest stats
+resInfo = bt_result.stats
+
+# Get daily, monthly, and yearly returns
+print('Daily return: %.4f'% resInfo.loc['daily_mean'])
+print('Monthly return: %.4f'% resInfo.loc['monthly_mean'])
+print('Yearly return: %.4f'% resInfo.loc['yearly_mean'])
+
+# Get the compound annual growth rate
+print('Compound annual growth rate: %.4f'% resInfo.loc['cagr'])
+
+===============================================================================
+
+Plot return histograms of a backtest
+Continue with the same strategy backtest result from the previous exercise. Now you would like to plot return histograms to further examine the characteristics of the return distribution.
+
+The bt backtest result has been provided in bt_result and is ready to use. In addition, matplotlib.pyplot has been imported as plt.
+
+# Plot the daily return histogram
+bt_result.plot_histograms(bins=50)
+plt.show()
+
+# Plot the weekly return histogram
+bt_result.plot_histograms(bins=50, freq='w')
+plt.show()
+
+===============================================================================
+
+Compare return results of multiple strategies
+With the same strategy using a simple moving average indicator, you also conducted a strategy optimization by varying the lookback periods of the moving average indicator from 30 to 50 days. You backtested both strategies using the Google stock historical price data from 2017 to 2020. Now you are about to compare the backtest results.
+
+The bt backtest results of both strategies have been provided in bt_results and are ready to use.
+
+# Plot the backtest result
+bt_results.plot(title='Backtest result')
+plt.show()
+
+# Get the lookback returns
+lookback_returns = bt_results.display_lookback_returns()
+print(lookback_returns)
+
+===============================================================================
+
+Review performance with drawdowns
+You implemented a signal-based strategy using two moving average indicators. You performed a backtest using the Tesla stock historical price data from 2019 to 2020, and the result plot is shown on the right. Now you would like to evaluate the strategy performance, specifically the downside volatility, by reviewing the drawdown result from the backtest.
+
+The bt backtest result has been provided in bt_result and is ready to use.
+
+# Obtain all backtest stats
+resInfo = bt_result.stats
+
+# Get the average drawdown
+avg_drawdown = resInfo.loc['avg_drawdown']
+print('Average drawdown: %.2f'% avg_drawdown)
+
+# Get the average drawdown days
+avg_drawdown_days = resInfo.loc['avg_drawdown_days']
+print('Average drawdown days: %.0f'% avg_drawdown_days)
+
+===============================================================================
+
+Calculate and review the Calmar ratio
+Continue with the same strategy. From the previous exercise, you know that the average drawdown is approximately 11%, and that the average period is 22 days. Now you would like to get a better understanding of the risk-return profile of it. You plan to review the CAGR, max drawdown, then use them to calculate the Calmar ratio and assess the result.
+
+The resInfo DataFrame that contains all backtest statistics has been provided for you.
+
+# Get the CAGR
+cagr = resInfo.loc['cagr']
+print('Compound annual growth rate: %.4f'% cagr)
+
+# Get the max drawdown
+max_drawdown = resInfo.loc['max_drawdown']
+print('Maximum drawdown: %.2f'% max_drawdown)
+
+# Calculate Calmar ratio manually
+calmar_calc = cagr / max_drawdown * (-1)
+print('Calmar Ratio calculated: %.2f'% calmar_calc)
+
+# Get the Calmar ratio
+calmar = resInfo.loc['calmar']
+print('Calmar Ratio: %.2f'% calmar)
+
+===============================================================================
+
+Evaluate strategy performance by Sharpe ratio
+The Sharpe ratio is a risk-adjusted return measure developed by Nobel laureate William F. Sharpe. It is calculated as the average return over the risk-free rate divided by the standard deviation of the excess return.
+
+You will calculate and review the Sharpe ratio of a signal-based strategy. The strategy generates long or short signals using two moving average indicators, and has been backtested using the 3-year historical price data of the Google stock. The backtest statistics has been provided in resInfo.
+
+# Get annual return and volatility
+yearly_return = resInfo.loc['yearly_mean']
+print('Annual return: %.2f'% yearly_return)
+yearly_vol = resInfo.loc['yearly_vol']
+print('Annual volatility: %.2f'% yearly_vol)
+
+# Calculate the Sharpe ratio manually
+sharpe_ratio = yearly_return / yearly_vol
+print('Sharpe ratio calculated: %.2f'% sharpe_ratio)
+
+# Print the Sharpe ratio
+print('Sharpe ratio %.2f'% resInfo.loc['yearly_sharpe'])
+
+===============================================================================
+
+Evaluate strategy performance by Sortino ratio
+The Sortino ratio is the excess return over the risk-free rate divided by the downside deviation, and thus it measures the excess return to "bad" volatility. In other words, it doesn't penalize the volatility of positive excess returns.
+
+You will use the Sortino ratio to evaluate the same strategy from the previous exercise and see if it tells a different story. As a reminder, the strategy is a signal-based strategy using two moving average indicators. The strategy backtest statistic using Google 3-year historical stock price data has been loaded in resInfo. The Sharpe ratios have been printed for you and are visible in the console.
+
+# Print annual Sortino ratio
+yearly_sortino = resInfo.loc['yearly_sortino']
+print('Annual Sortino ratio: %.2f'% yearly_sortino)
+
+# Print monthly Sortino ratio
+monthly_sortino = resInfo.loc['monthly_sortino']
+print('Monthly Sortino ratio %.2f'% monthly_sortino)

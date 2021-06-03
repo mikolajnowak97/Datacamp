@@ -1,0 +1,141 @@
+Converting quarters into months
+A company has a challenge in separating data into months. It has received the following data:
+
+Quarter	Amount
+Quarter 1	700
+Quarter 2	650
+The split across the months within each quarter is equal. Your goal is to separate this data into a list format containing the amounts per month for the first two quarters.
+
+# Create a list for quarters and initialize an empty list qrtlist
+quarters = [700, 650]
+qrtlist = []
+
+# Create a for loop to split the quarters into months and add to qrtlist
+for qrt in quarters:
+ month = round(qrt / 3, 2)
+ qrtlist = qrtlist + [month, month, month]
+
+# Print the result
+print("The values per month for the first two quarters are {}.".format(qrtlist))
+
+===============================================================================
+
+Merging months into quarters
+Now we saw what to do when we wanted to split quarters into months for more detailed monthly information. But what happens when the opposite is true and we wish to combine data into fewer columns? This is typical when dealing with historical data, when monthly details may not be necessary, or when we need a highly consolidated version of the data for a report.
+
+The key here is to create an index, and then only add to the quarter total quarter in cycles of 3, or until the length of the list. We can do this with the following code:
+
+if index % 3 == 0 or index == len(months):
+
+This code checks whether the index divided by three yields a remainder of 0, or if the index is at the end of the list months. Thus, in a loop it will execute the specified code every three months or when it reaches the end of the list.
+
+The monthly sales are already provided in the code as months, containing the sales from the first two quarters, as well as the first month of Q3. Your task is to generate a new list called quarters that contains the quarterly totals from the first three months (which includes the partial total of Q3).
+
+# Create a months list, as well as an index, and set the quarter to 0
+months = [100, 100, 150, 250, 300, 10, 20]
+quarter = 0
+quarters = []
+index = 1
+
+# Create for loop for quarter, print result, and increment the index
+for sales in months:
+    quarter += sales
+    if index % 3 == 0 or index == len(months):
+        quarters.append(quarter)
+        quarter = 0
+    index = index + 1
+    
+print("The quarter totals are Q1: {}, Q2: {}, Q3: {}".format(quarters[0], quarters[1], quarters[2]))
+
+===============================================================================
+
+Converting date formats - simple
+Sales area A in Europe and Sales area B in Australia have different date formats.
+
+Sale A: 4000 on 14/02/2018
+Sale B: 3000 on 2 March 2018
+If we want to consolidate or compare sales periods, we need to convert to the same date format. We can easily do this by using the datetime library and the datetime.strptime(date_string, format) method, using the following directives:
+
+# Import the datetime python library
+from datetime import datetime
+
+# Create a dt_object to convert the first date and print the month result
+dt_object1 = datetime.strptime('14/02/2018', '%d/%m/%Y')
+print(dt_object1)
+
+# Create a dt_object to convert the second date and print the month result
+dt_object2 = datetime.strptime('2 March 2018', '%d %B %Y')
+print(dt_object2)
+
+===============================================================================
+
+Converting date formats - explicit
+Let's have a look at one of the dates from the previous exercise.
+
+Sale A: 4000 on 14/02/2018
+We used the datetime library to identify the day d, month m, and year y which could help us to identify data from datasets with different date formats. However, what about a scenario where we want to convert date formats into a specific format?
+
+In this exercise you will convert Sale A from the format 14/02/2018 to the same date format as Sale B (i.e. 14 February 2018).
+
+We can do this easily with built-in Python functions. Remember, to split a string we can use the .split()method.
+
+The input for this exercise will be the datetime of Sale A.
+
+# Set the variable for the datetime to convert
+dt = '14/02/2018'
+
+# Create the dictionary for the month values
+mm = {'01': 'January', '02': 'February', '03': 'March'}
+
+# Split the dt string into the different parts
+day, month, year = dt.split('/')
+
+# Print the concatenated date string
+print(day + ' ' + mm[month] + ' ' + year)
+
+===============================================================================
+
+Working with datasets - month totals
+In this exercise, we will be exploring a dataset that has multiple sales in one month. We will create a script that will enable us to identify dates within the same month, and combine them into a new month total, and append this to the table.
+
+We will be using the dataset df, which represents data from one of our sales areas. Print it out in the console to have a look at the data. As you can see, there were two sales in March. We will combine these sales into a single month total. We can iterate over the dataset using the .iteritems() method.
+
+We will also be using the .split() method.
+
+# Set the index to start at 0
+index = 0 
+
+# Create the dictionary for the months
+tt = {'Jan': 0, 'Feb': 0, 'Mar': 0}
+
+# Create a for loop that will iterate the date and amount values in the dataset
+for date, amount in df.iteritems():
+    # Create the if statement to split the day and month, then add it to the new tt variable
+    if index > 0: 
+        day, month = date.split('-')
+        tt[month] +=float(amount[0])
+    index += 1 
+
+print(tt)
+
+===============================================================================
+
+Working with datasets - combining datasets
+In this example, we will be working with two datasets, df1 and df2. You can print these both out in the console to see what they contain. You will notice that they contain different date formatting.
+
+More specifically, df1 specifies the month by the name (e.g. 02-Feb-18), whereas df2 specifies the month numerically (e.g. 06/01/2018). Additionally, df1 uses a hyphen (-) as a separator, whereas df2 uses a forward slash (/) as a separator.
+
+We will be combining these two datasets to form a consolidated forecast for the quarter. To do this, we will need to parse the different date formats of df1 and df2.
+
+totals = {'Jan': 0, 'Feb': 0, 'Mar': 0}
+calendar = {'01': 'Jan', '02': 'Feb', '03': 'Mar'}
+
+for date, amount in df1.iteritems():
+        day, month, year = date.split('-')
+        totals[month] +=float(amount[0]) 
+
+for date, amount in df2.iteritems():
+        day, month, year = date.split('/')
+        totals[calendar[month]] += float(amount[0])
+
+print(totals)

@@ -1,0 +1,183 @@
+Calculating gross profit
+Gross profit is the amount of money you generated in sales minus the cost of selling those goods (Also know as Cost of Goods Sold or COGS). COGS does not include administration or marketing costs, only costs directly related to production or providing the good or service, so Gross Profit is a good metric to see the core profitability of any product\service.
+
+Gross profit margin is the gross profit expressed as a percentage of sales, which is valuable for analysis and decision making.
+
+As the manager of a factory, you have been asked to check the gross profit forecast for the following year.
+
+# Set the sales variable and cost of goods sold (cogs) variables
+sales = 8000
+cogs = 5400
+
+# Calculate the gross profit (gross_profit)
+gross_profit = sales - cogs
+
+# Print the gross profit
+print("The gross profit is {}.".format(gross_profit))
+
+# Calculate the gross profit margin
+gross_profit_margin = gross_profit / sales
+
+# Print the gross profit margin
+print("The gross profit margin is {}.".format(gross_profit_margin))
+
+===============================================================================
+
+The net profit includes all the other costs (and all other income) that may incur or earn that is not directly related to the product. For example the salary of the accountant who prepares your invoices, the advertising budget, travel expenses, etc.
+
+So, how do we calculate this?
+
+We start by setting a list for all the items that we want to include in the net profit calculation and calling the list "other operating expenses" or "opex". To keep it simple we will not go into any tax or exceptional expenses or income. The simplified calculation is:
+
+The gross_profit (gross profit) variable has been set for you.
+
+# Create and print the opex list
+opex = [admin, travel, training, marketing, insurance]
+print(opex)
+
+# Calculate and print net profit
+net_profit = gross_profit - sum(opex)
+print("The net profit is {}.".format(net_profit))
+
+===============================================================================
+
+Calculating sales
+To calculate a sales forecast we need to know both the price we wish to sell our product and the number of units we expect to sell. In this example we will have a look at a company T-Z producing and selling T-Shirts.
+
+The company offers its customers two options - a basic shirt or a customized shirt. A T-shirt costs 15 USD for a basic shirt, and 25 USD for a customized one.
+
+T-Z have forecast orders for T-Shirts for delivery next month, and want to use the same sales mix of 60% basic and 40% customized. As this mix is relatively stable, we can calculate an average sales price per unit for T-Z. The variable forecast_units has been set for you.
+
+# Set variables units sold and sales price of the T-shirts (basic and custom)
+salesprice_basic = 15
+salesprice_custom = 25
+
+# Calculate the combined sales price taking into account the sales mix
+average_sales_price = (salesprice_basic * 0.6) + (salesprice_custom * 0.4)
+
+# Calculate the total sales for next month
+sales_USD = average_sales_price * forecast_units
+
+# Print the total sales
+print("Next month's forecast sales figure is {:.2f} USD.".format(sales_USD))
+
+===============================================================================
+
+Forecasting sales with a discount
+Sales are often made with special mixes and discounts. Discounts are a great marketing tool and a way to move stock. Let's look again at company T-Z.
+
+T-Z has launched a new range of T-Shirts linked to a celebrity meme for 40 USD per T-Shirt. They have excess stock of Celebshirt1 on their shelves, and in expectation of the release of Celebshirt2 in February, they have announced a 40% discount on Celebshirt1 in February.
+
+For this exercise, prices are in USD, and unit amounts are total units sold in the respective month. The following variables have been defined for you:
+
+sales_price = 40
+
+units_january = 500
+
+units_february = 700
+
+The January sales only include sales of Celebshirt1.
+
+The February sales include sales of Celebshirt1 and Celebshirt2, at a ratio of 45:55.
+
+# Forecast the sales of January
+sales_january = sales_price * units_january
+
+# Forecast the discounted price
+dsales_price = sales_price * 0.6
+
+# Forecast the sales of February
+sales_february = (sales_price * units_february * 0.55) + (dsales_price * units_february * 0.45)
+
+# Print the forecast sales for January and February
+print("The forecast sales for January and February are {} and {} USD respectively.".format(sales_january, sales_february))
+
+===============================================================================
+
+Calculating COGS
+Cost of Goods Sold (COGS) is calculated as follows:
+
+We assume no closing or opening balances, stock is sold in the same month that it is produced.
+
+Material costs to produce one T-shirt is 8 USD. Labor costs are 2 USD per shirt. As you only use materials and labor to make the shirt, this is known as variable costs. The costs to rent a machine that produces these shirts is 1300 USD per month, regardless of the amount of shirts produced. This is therefore an example of a fixed cost, as fixed costs in COGS are costs directly related to the product but are incurred whether you produce the products or not.
+
+Preloaded variables are printed in the shell.
+
+# From previous step
+fixed_costs = machine_rental 
+variable_costs_per_unit = material_costs_per_unit + labor_costs_per_unit
+cogs_jan = (units_jan * variable_costs_per_unit) + fixed_costs
+cogs_feb = (units_feb * variable_costs_per_unit) + fixed_costs
+
+# Calculate the unit cost for January and February
+unit_cost_jan = cogs_jan / units_jan
+unit_cost_feb = cogs_feb / units_feb
+
+# Print the January and February cost per unit
+print("The cost per unit for January and February are {} and {} USD respectively.".format(unit_cost_jan, unit_cost_feb))
+
+===============================================================================
+
+Calculating the break-even point
+Tracking and understanding how cost per unit varies by month is critical, as the COGS influence the gross profit. At a certain point, if we do not make enough sales in the month to cover our costs, we will enter a loss situation.
+
+How do we know we have produced enough units to sell to cover our costs? We do this by using a concept called the break-even point. The formula is as follows:
+
+In the last exercise, we calculated a unit cost of 16.5 USD for January and 15.2 USD for February. Keep this in mind when calculating the break-even point.
+Predefined variables have been printed to the shell.
+
+# Calculate the break-even point (in units) for T-Z
+break_even = fixed_costs/(sales_price - variable_costs_per_unit)
+
+# Print the break even point in units
+print("The break even point is {} units.".format(break_even))
+
+# Forecast the gross profit for January and February
+gross_profit_jan = (sales_price*units_jan) - cogs_jan
+gross_profit_feb = (sales_price*units_feb) - cogs_feb
+
+# Print the gross profit for January and February
+print("The gross profit for January and February are {} and {} USD respectively.".format(gross_profit_jan, gross_profit_feb))
+
+===============================================================================
+
+Tesla income statement
+The dataset for the Tesla income statement is called income_statement.
+
+This dataset has a final column called Trailing Twelve Months (TTM), which is the most recent 12 months of data available. We will use this to calculate a 2018 forecast for Tesla.
+
+We are only interested in the rows 'Revenue', 'Gross profit', 'Total operating expenses', and 'Net income', so we'll create a filtered income statement to only show these rows. The filtering code uses the following pattern.
+
+# Choose some interesting metrics
+interesting_metrics = ['Revenue', 'Gross profit', 'Total operating expenses', 'Net income']
+
+# Filter for rows containing these metrics
+filtered_income_statement = income_statement[income_statement.metric.isin(interesting_metrics)]
+
+# See the result
+print(filtered_income_statement)
+
+===============================================================================
+
+Forecasting profit for Tesla
+As in the previous exercise, the dataset for the Tesla income statement is named income_statement. Using what we have learned in the previous exercise, we will now append a new column with 2018 Forecast data, which we will assign the header "Forecast".
+
+For this exercise, we would like to set the filtered_income_statement to only show the row 'Revenue'.
+
+Remember, the TTM column is the most recent 12-month value that we will use for the 2018 forecast. Thus far, we have the following information for 2018:
+
+The market demand analysis predicts the revenue to increase to 13,000 in 2018 due to increased sales of Model 3.
+
+revenue_metric = ['Revenue']
+
+# Filter for rows containing the revenue metric
+filtered_income_statement = income_statement[income_statement.metric.isin(revenue_metric)]
+
+# Get the number of columns in filtered_income_statement
+n_cols = len(filtered_income_statement.columns)
+
+# Insert a column in the correct position containing the column 'Forecast'
+filtered_income_statement.insert(n_cols, 'Forecast', 13000) 
+
+# See the result
+print(filtered_income_statement)
